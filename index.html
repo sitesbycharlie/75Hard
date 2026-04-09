@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>75 Hard — Charlie</title>
+<title>75 Hard R2 — Charlie</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080808;--bg2:#101010;--bg3:#181818;--bg4:#202020;
-  --border:#1e1e1e;--border2:#2a2a2a;
-  --red:#D84040;--red2:#8E1616;--red-dim:rgba(216,64,64,.10);--red-dim2:rgba(142,22,22,.25);
+  --bg:#000000;--bg2:#080808;--bg3:#0f0f0f;--bg4:#161616;
+  --border:#1a1a1a;--border2:#242424;
+  --red:#FF2D2D;--red2:#A01010;--red-dim:rgba(255,45,45,.10);--red-dim2:rgba(160,16,16,.28);
   --white:#f0ede8;--grey:#555;--lgrey:#888;--mgrey:#bbb;
   --green:#4caf7d;--blue:#5b8dee;--amber:#e8a838;
   --font:'Space Grotesk',sans-serif;--mono:'Space Mono',monospace;
@@ -19,14 +19,14 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--white);font-family:var(--font);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-body.red-alert{--bg:#0d0404;--bg2:#130606;--bg3:#190808}
+body.red-alert{--bg:#070000;--bg2:#0d0000;--bg3:#120000}
 body.red-alert nav{border-bottom-color:#2d0808}
 .alert-pulse{}
 body.red-alert .alert-pulse{animation:ap 2.5s ease-in-out infinite}
 @keyframes ap{0%,100%{box-shadow:none}50%{box-shadow:0 0 24px 4px rgba(216,64,64,.12)}}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter:blur(14px);
+nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.97);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px}
 .nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .nav-tabs{display:flex;gap:2px}
@@ -111,7 +111,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
 @keyframes burstIn{0%{transform:scale(0) rotate(-8deg);opacity:0}65%{transform:scale(1.05) rotate(1deg)}100%{transform:scale(1) rotate(0deg);opacity:1}}
 @keyframes burstOut{to{transform:scale(.92) translateY(-12px);opacity:0}}
 .burst{position:fixed;inset:0;z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:rgba(6,2,2,.97);animation:burstIn .45s cubic-bezier(.34,1.56,.64,1) both;pointer-events:none}
+  background:rgba(0,0,0,.99);animation:burstIn .45s cubic-bezier(.34,1.56,.64,1) both;pointer-events:none}
 .burst.out{animation:burstOut .35s ease forwards}
 .burst-inner{text-align:center;padding:40px 28px;position:relative;z-index:2}
 .burst-flame{font-size:68px;display:block;animation:fp 1.1s ease-in-out infinite alternate}
@@ -151,7 +151,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
 .tb-label span{color:var(--lgrey)}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;z-index:400;background:rgba(4,0,0,.96);
+.modal-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.98);
   display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .25s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .modal{background:var(--bg2);border:1px solid var(--red2);max-width:380px;width:100%;padding:32px 28px}
@@ -266,7 +266,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
 
 /* BOTTOM BAR */
 .bottom-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:rgba(8,8,8,.96);backdrop-filter:blur(14px);border-top:1px solid var(--border);
+  background:rgba(0,0,0,.98);backdrop-filter:blur(14px);border-top:1px solid var(--border);
   display:flex;padding:8px 12px max(8px,env(safe-area-inset-bottom)) 12px;gap:4px;justify-content:center}
 .bb-tab{flex:1;max-width:100px;display:flex;flex-direction:column;align-items:center;gap:3px;
   padding:6px 4px;cursor:pointer;border:none;background:none;color:var(--grey);
@@ -302,7 +302,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
 <body>
 
 <nav>
-  <div class="nav-logo"><span id="navFlame">🔥</span>75 HARD</div>
+  <div class="nav-logo"><span id="navFlame">🔥</span>75 HARD — R2</div>
   <div class="nav-tabs">
     <button class="nav-tab active" data-tab="today">Today</button>
     <button class="nav-tab" data-tab="plan">Plan</button>
@@ -315,7 +315,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
 <div class="section active" id="tab-today">
   <div class="hero alert-pulse">
     <div class="hero-left">
-      <div class="eyebrow">April 10 → June 23, 2026</div>
+      <div class="eyebrow">Round 2 · April 10 → June 23, 2026</div>
       <div class="day-num">DAY<span id="heroDay">—</span></div>
       <div class="day-date" id="heroDate">—</div>
       <div class="day-session" id="heroSession" style="display:none"></div>
@@ -331,7 +331,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
           <div class="ring-lbl">days left</div>
         </div>
       </div>
-      <div class="ring-sub" id="ringSub">Starts tomorrow</div>
+      <div class="ring-sub" id="ringSub">R2 starts tomorrow</div>
     </div>
   </div>
 
@@ -373,7 +373,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
         <div class="tb-marker" id="tbWeightMarker" style="left:0%"></div>
       </div>
       <div class="tb-labels">
-        <div class="tb-label">Start <span>170</span></div>
+        <div class="tb-label">Start <span class="tb-start-w">?</span></div>
         <div class="tb-label" style="text-align:center">Now <span id="tbNowW">—</span></div>
         <div class="tb-label" style="text-align:right">Goal <span>155</span></div>
       </div>
@@ -387,7 +387,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
         <div class="tb-marker" id="tbBfMarker" style="left:0%;background:var(--blue)"></div>
       </div>
       <div class="tb-labels">
-        <div class="tb-label">Start <span>24%</span></div>
+        <div class="tb-label">Start <span class="tb-start-bf">?%</span></div>
         <div class="tb-label" style="text-align:center">Now <span id="tbNowBf">—</span></div>
         <div class="tb-label" style="text-align:right">Goal <span>15%</span></div>
       </div>
@@ -434,14 +434,14 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
 <!-- ② PLAN -->
 <div class="section" id="tab-plan">
 <div class="wrap">
-  <div class="eyebrow">Your Protocol</div>
-  <div style="font-size:26px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px">75 HARD PLAN</div>
-  <div style="font-family:var(--mono);font-size:10px;color:var(--lgrey);letter-spacing:.1em;margin-bottom:24px">APR 10 → JUN 23, 2026 · 75 DAYS</div>
+  <div class="eyebrow">Round 2 Protocol</div>
+  <div style="font-size:26px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px">75 HARD — R2</div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--lgrey);letter-spacing:.1em;margin-bottom:24px">APR 10 → JUN 23, 2026 · 75 DAYS · ROUND 2</div>
 
   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:24px">
-    <div class="mt-cell"><div class="mt-val" style="font-size:14px">170</div><div class="mt-pct">lbs</div><div class="mt-key">Start</div></div>
+    <div class="mt-cell"><div class="mt-val" style="font-size:14px" id="planStartW">—</div><div class="mt-pct">lbs</div><div class="mt-key">Start</div></div>
     <div class="mt-cell"><div class="mt-val" style="font-size:14px">155</div><div class="mt-pct">lbs</div><div class="mt-key">Target</div></div>
-    <div class="mt-cell"><div class="mt-val" style="font-size:14px">24%</div><div class="mt-pct">BF</div><div class="mt-key">Start</div></div>
+    <div class="mt-cell"><div class="mt-val" style="font-size:14px" id="planStartBf">—</div><div class="mt-pct">BF</div><div class="mt-key">Start</div></div>
     <div class="mt-cell"><div class="mt-val" style="font-size:14px">15–17%</div><div class="mt-pct">BF</div><div class="mt-key">Target</div></div>
     <div class="mt-cell"><div class="mt-val" style="font-size:14px">2,007</div><div class="mt-pct">kcal</div><div class="mt-key">Daily</div></div>
   </div>
@@ -553,13 +553,32 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.94);backdrop-filter
     <div class="pb-cell"><div class="pb-val" id="progLeft">75</div><div class="pb-key">Remaining</div></div>
   </div>
 
-  <div class="label">Log Weight & Body Fat</div>
-  <div class="weight-input-row">
-    <input class="weight-input" id="weightInput" type="number" step="0.1" placeholder="Weight (lbs)" inputmode="decimal">
-    <input class="weight-input" id="bfInput" type="number" step="0.1" placeholder="BF %" inputmode="decimal" style="max-width:110px">
-    <button class="weight-btn" id="logWeightBtn">Log</button>
+  <div class="label">Weight & Body Fat</div>
+
+  <!-- Baseline locked display (shown once set) -->
+  <div id="logLocked" style="margin-bottom:2px"></div>
+
+  <!-- Day 1 baseline prompt (shown before baseline is set) -->
+  <div id="baselinePrompt" style="background:var(--bg2);border:1px solid var(--red2);padding:16px;margin-bottom:2px">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--red);text-transform:uppercase;margin-bottom:8px">⚖ Day 1 Weigh-In — Lock Your Baseline</div>
+    <div style="font-size:12px;color:var(--lgrey);line-height:1.65;margin-bottom:14px">Step on the scale first thing tomorrow morning, fasted, before food or water. Enter your numbers below. This gets locked in permanently as your starting point — you can't change it later.</div>
+    <div class="weight-input-row">
+      <input class="weight-input" id="weightInput" type="number" step="0.1" placeholder="Weight (lbs)" inputmode="decimal">
+      <input class="weight-input" id="bfInput" type="number" step="0.1" placeholder="BF %" inputmode="decimal" style="max-width:110px">
+      <button class="weight-btn" id="logWeightBtn">Lock In</button>
+    </div>
+    <div style="font-family:var(--mono);font-size:8px;color:var(--grey);padding:6px 0 0;letter-spacing:.08em">This is your truth. No rounding. No cheating yourself.</div>
   </div>
-  <div style="font-family:var(--mono);font-size:8px;color:var(--grey);padding:6px 0 16px;letter-spacing:.08em">Logs to today's day · updates transformation bars on Today tab</div>
+
+  <!-- Ongoing log (shown after baseline is set) -->
+  <div id="logSection" style="display:none;margin-bottom:2px">
+    <div class="weight-input-row">
+      <input class="weight-input" id="weightInputOngoing" type="number" step="0.1" placeholder="Today's weight (lbs)" inputmode="decimal">
+      <input class="weight-input" id="bfInputOngoing" type="number" step="0.1" placeholder="BF %" inputmode="decimal" style="max-width:110px">
+      <button class="weight-btn" id="logOngoingBtn">Log</button>
+    </div>
+    <div style="font-family:var(--mono);font-size:8px;color:var(--grey);padding:6px 0 0;letter-spacing:.08em">Daily weigh-in · same conditions each morning</div>
+  </div>
 
   <div class="label">Weight & BF% Chart</div>
   <div class="chart-wrap" style="margin-bottom:24px">
@@ -806,20 +825,37 @@ function fireBurst(dayNum){
 
 function renderTransform(){
   const data=load();
+  const bl=data.baseline;
   const logs=data.weightLogs||{};
   const keys=Object.keys(logs).sort((a,b)=>+a-+b);
   const latest=keys.length?logs[keys[keys.length-1]]:null;
-  const w=latest?latest.w:170,bf=latest?latest.bf:24;
-  const wPct=Math.max(0,Math.min(100,((170-w)/(170-155))*100));
-  const bfPct=Math.max(0,Math.min(100,((24-bf)/(24-15))*100));
+  if(!bl){
+    document.getElementById('tbWeightLabel').textContent='Waiting for Day 1 weigh-in…';
+    document.getElementById('tbBfLabel').textContent='—';
+    document.getElementById('tbNowW').textContent='—';
+    document.getElementById('tbNowBf').textContent='—';
+    document.getElementById('tbWeightFill').style.width='0%';
+    document.getElementById('tbWeightMarker').style.left='0%';
+    document.getElementById('tbBfFill').style.width='0%';
+    document.getElementById('tbBfMarker').style.left='0%';
+    document.querySelectorAll('.tb-start-w').forEach(el=>el.textContent='?');
+    document.querySelectorAll('.tb-start-bf').forEach(el=>el.textContent='?%');
+    return;
+  }
+  const startW=bl.w,startBf=bl.bf,targetW=155,targetBf=15;
+  const w=latest?latest.w:startW,bf=latest?latest.bf:startBf;
+  const wPct=Math.max(0,Math.min(100,((startW-w)/(startW-targetW))*100));
+  const bfPct=Math.max(0,Math.min(100,((startBf-bf)/(startBf-targetBf))*100));
   document.getElementById('tbWeightFill').style.width=wPct+'%';
   document.getElementById('tbWeightMarker').style.left=wPct+'%';
   document.getElementById('tbBfFill').style.width=bfPct+'%';
   document.getElementById('tbBfMarker').style.left=bfPct+'%';
   document.getElementById('tbWeightLabel').textContent=`${w.toFixed(1)} lbs  (${wPct.toFixed(0)}% there)`;
   document.getElementById('tbBfLabel').textContent=`${bf.toFixed(1)}%  (${bfPct.toFixed(0)}% there)`;
-  document.getElementById('tbNowW').textContent=latest?w.toFixed(1)+'lbs':'not logged';
-  document.getElementById('tbNowBf').textContent=latest?bf.toFixed(1)+'%':'not logged';
+  document.getElementById('tbNowW').textContent=latest?w.toFixed(1)+' lbs':'not logged yet';
+  document.getElementById('tbNowBf').textContent=latest?bf.toFixed(1)+'%':'not logged yet';
+  document.querySelectorAll('.tb-start-w').forEach(el=>el.textContent=startW.toFixed(1));
+  document.querySelectorAll('.tb-start-bf').forEach(el=>el.textContent=startBf.toFixed(1)+'%');
 }
 
 function renderMath(){
@@ -864,7 +900,7 @@ function renderToday(){
   const C=238.8,prog=td===0?0:(td-1)/TOTAL;
   document.getElementById('ringFill').style.strokeDashoffset=C-(prog*C);
   document.getElementById('ringNum').textContent=dLeft;
-  document.getElementById('ringSub').textContent=td===0?'starts tomorrow':`day ${Math.min(td,75)} of 75`;
+  document.getElementById('ringSub').textContent=td===0?'R2 starts tomorrow':`day ${Math.min(td,75)} of 75`;
 
   const ph=phaseFor(dd);
   document.getElementById('todayPhase').textContent=ph.name;
@@ -882,7 +918,7 @@ function renderToday(){
     div.className=`task${isDone?' done':''}`;div.dataset.type=task.type;
     div.innerHTML=`<div class="task-chk"></div><div class="task-label">${task.label}</div><div class="task-tag">${task.tag}</div>`;
     div.addEventListener('click',()=>{
-      if(td===0){toast('Challenge starts tomorrow!');return;}
+      if(td===0){toast('Round 2 starts tomorrow. Get ready.');return;}
       if(navigator.vibrate)navigator.vibrate(10);
       const d2=load();if(!d2[dayKey])d2[dayKey]={};
       const nowDone=!d2[dayKey][task.id];d2[dayKey][task.id]=nowDone;save(d2);
@@ -1020,11 +1056,74 @@ document.getElementById('logWeightBtn').addEventListener('click',()=>{
   const bf=parseFloat(document.getElementById('bfInput').value);
   if(isNaN(w)&&isNaN(bf)){toast('Enter weight or BF%');return;}
   const td=Math.max(1,todayDayNum());
-  const d=load();if(!d.weightLogs)d.weightLogs={};
-  d.weightLogs[td]={w:isNaN(w)?170:w,bf:isNaN(bf)?24:bf};save(d);
+  const d=load();
+  // Lock baseline on first log — cannot be overwritten
+  if(!d.baseline){
+    d.baseline={w:isNaN(w)?0:w,bf:isNaN(bf)?0:bf};
+    // Also log it as Day 1 entry
+    if(!d.weightLogs)d.weightLogs={};
+    d.weightLogs[1]={w:d.baseline.w,bf:d.baseline.bf};
+    save(d);
+    document.getElementById('weightInput').value='';
+    document.getElementById('bfInput').value='';
+    renderTransform();renderChart();renderProgress();renderToday();
+    updateLogUI();
+    toast(`✓ Baseline locked: ${isNaN(w)?'':w+'lbs'} ${isNaN(bf)?'':bf+'%'}`);
+    return;
+  }
+  // Normal subsequent log
+  if(!d.weightLogs)d.weightLogs={};
+  d.weightLogs[td]={w:isNaN(w)?d.baseline.w:w,bf:isNaN(bf)?d.baseline.bf:bf};
+  save(d);
   document.getElementById('weightInput').value='';document.getElementById('bfInput').value='';
   renderTransform();renderChart();renderProgress();
   toast(`✓ Logged D${td}: ${isNaN(w)?'':w+'lbs'} ${isNaN(bf)?'':bf+'%'}`);
+});
+
+function updateLogUI(){
+  const data=load();
+  const bl=data.baseline;
+  const prompt=document.getElementById('baselinePrompt');
+  const logSection=document.getElementById('logSection');
+  const logLocked=document.getElementById('logLocked');
+
+  if(bl){
+    if(prompt)prompt.style.display='none';
+    if(logSection)logSection.style.display='block';
+    if(logLocked){
+      logLocked.innerHTML=`<div style="display:flex;gap:2px;margin-bottom:2px"><div style="flex:1;background:var(--bg3);border:1px solid var(--border);padding:12px;text-align:center"><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--white)">${bl.w.toFixed(1)}</div><div style="font-family:var(--mono);font-size:7px;color:var(--grey);margin-top:3px;letter-spacing:.1em;text-transform:uppercase">lbs start — locked</div></div><div style="flex:1;background:var(--bg3);border:1px solid var(--border);padding:12px;text-align:center"><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--white)">${bl.bf.toFixed(1)}%</div><div style="font-family:var(--mono);font-size:7px;color:var(--grey);margin-top:3px;letter-spacing:.1em;text-transform:uppercase">BF start — locked</div></div></div>`;
+    }
+    // Update Plan tab stats
+    const planW=document.getElementById('planStartW');
+    const planBf=document.getElementById('planStartBf');
+    if(planW)planW.textContent=bl.w.toFixed(1);
+    if(planBf)planBf.textContent=bl.bf.toFixed(1)+'%';
+  } else {
+    if(prompt)prompt.style.display='block';
+    if(logSection)logSection.style.display='none';
+    if(logLocked)logLocked.innerHTML='';
+    const planW=document.getElementById('planStartW');
+    const planBf=document.getElementById('planStartBf');
+    if(planW)planW.textContent='TBD';
+    if(planBf)planBf.textContent='TBD';
+  }
+}
+
+// Ongoing daily log (after baseline locked)
+document.addEventListener('click',e=>{
+  if(e.target.id==='logOngoingBtn'){
+    const w=parseFloat(document.getElementById('weightInputOngoing').value);
+    const bf=parseFloat(document.getElementById('bfInputOngoing').value);
+    if(isNaN(w)&&isNaN(bf)){toast('Enter weight or BF%');return;}
+    const td=Math.max(1,todayDayNum());
+    const d=load();if(!d.weightLogs)d.weightLogs={};
+    const bl=d.baseline||{w:0,bf:0};
+    d.weightLogs[td]={w:isNaN(w)?bl.w:w,bf:isNaN(bf)?bl.bf:bf};save(d);
+    document.getElementById('weightInputOngoing').value='';
+    document.getElementById('bfInputOngoing').value='';
+    renderTransform();renderChart();renderProgress();
+    toast(`✓ Logged D${td}: ${isNaN(w)?'':w+'lbs'} ${isNaN(bf)?'':bf+'%'}`);
+  }
 });
 
 function switchTab(name){
@@ -1043,6 +1142,7 @@ buildPhases();
 reviewDay=Math.max(1,todayDayNum());
 renderToday();
 renderStats();
+updateLogUI();
 checkRedAlert();
 maybeRealityCheck();
 setInterval(checkRedAlert,60000);
