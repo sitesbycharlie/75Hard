@@ -41,7 +41,7 @@ body.red-alert .alert-pulse{animation:ap 2.5s ease-in-out infinite}
 
 /* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.97);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px}
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;position:relative}
 .nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .nav-tabs{display:flex;gap:2px}
 .nav-tab{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
@@ -53,6 +53,39 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.97);backdrop-filter
 .section{display:none;min-height:calc(100vh - 52px);min-height:calc(100dvh - 52px)}
 .section.active{display:block;animation:tabIn .2s ease both}
 @keyframes tabIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Desktop: panel effect — body stays black, content column gets bg2 */
+@media(min-width:700px){
+  body{
+    background:
+      linear-gradient(
+        to right,
+        var(--bg) calc(50% - 340px),
+        var(--bg2) calc(50% - 340px),
+        var(--bg2) calc(50% + 340px),
+        var(--bg) calc(50% + 340px)
+      );
+    background-attachment:fixed;
+  }
+  /* Column border lines */
+  nav::after{
+    content:'';position:absolute;inset:0;
+    background:
+      linear-gradient(
+        to right,
+        transparent calc(50% - 340px),
+        var(--border) calc(50% - 340px),
+        var(--border) calc(50% - 339px),
+        transparent calc(50% - 339px),
+        transparent calc(50% + 339px),
+        var(--border) calc(50% + 339px),
+        var(--border) calc(50% + 340px),
+        transparent calc(50% + 340px)
+      );
+    pointer-events:none;
+  }
+  nav{position:sticky;top:0;z-index:100}
+}
 
 /* SHARED */
 .wrap{max-width:680px;margin:0 auto;padding:32px 20px 80px}
