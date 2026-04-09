@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>75 Hard — Charlie</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080808;
+  --bg2:     #101010;
+  --bg3:     #181818;
+  --bg4:     #202020;
+  --border:  #1e1e1e;
+  --border2: #2a2a2a;
+  --red:     #D84040;
+  --red2:    #8E1616;
+  --red-dim: rgba(216,64,64,0.10);
+  --red-dim2:rgba(142,22,22,0.25);
+  --white:   #f0ede8;
+  --grey:    #555;
+  --lgrey:   #888;
+  --mgrey:   #bbb;
+  --green:   #4caf7d;
+  --blue:    #5b8dee;
+  --amber:   #e8a838;
+  --font:    'Space Grotesk', sans-serif;
+  --mono:    'Space Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--font);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ─── NAV ─────────────────────────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;height:52px;
+}
+.nav-logo{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--red);text-transform:uppercase}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  padding:6px 12px;cursor:pointer;color:var(--lgrey);border:1px solid transparent;
+  transition:all .15s ease;background:none;white-space:nowrap;
+}
+.nav-tab:hover{color:var(--white)}
+.nav-tab.active{color:var(--red);border-color:var(--border2);background:var(--bg3)}
+
+/* ─── SECTIONS ────────────────────────────────────────────────────── */
+.section{display:none;min-height:calc(100vh - 52px)}
+.section.active{display:block}
+
+/* ─── SHARED ──────────────────────────────────────────────────────── */
+.wrap{max-width:680px;margin:0 auto;padding:32px 20px 80px}
+.eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--red);text-transform:uppercase;margin-bottom:8px}
+.rule{height:1px;background:var(--border);margin:24px 0}
+.label{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--grey);text-transform:uppercase;margin-bottom:10px}
+.card{background:var(--bg2);border:1px solid var(--border);padding:20px}
+.card+.card{margin-top:2px}
+
+/* ─── ① TODAY ─────────────────────────────────────────────────────── */
+/* hero strip */
+.hero{
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;
+  padding:28px 20px 24px;border-bottom:1px solid var(--border);
+  max-width:680px;margin:0 auto;
+}
+.hero-left .day-num{
+  font-size:clamp(52px,12vw,88px);font-weight:700;line-height:.9;
+  letter-spacing:-.04em;color:var(--white)
+}
+.hero-left .day-num span{color:var(--red)}
+.hero-left .day-date{font-family:var(--mono);font-size:10px;color:var(--lgrey);letter-spacing:.1em;margin-top:8px}
+.hero-left .day-session{
+  display:inline-block;margin-top:10px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  padding:4px 10px;border:1px solid var(--red2);color:var(--red);background:var(--red-dim);
+  text-transform:uppercase
+}
+
+/* ring */
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ring-svg{width:90px;height:90px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--border2);stroke-width:5}
+.ring-fill{fill:none;stroke:var(--red);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pos{position:relative;width:90px;height:90px}
+.ring-num{font-size:24px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.ring-lbl{font-family:var(--mono);font-size:7px;color:var(--lgrey);letter-spacing:.12em;text-transform:uppercase;margin-top:1px}
+.ring-sub{font-family:var(--mono);font-size:8px;color:var(--grey);letter-spacing:.08em;text-align:center}
+
+/* phase banner */
+.phase-bar{
+  background:var(--bg3);border-left:3px solid var(--red2);
+  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  max-width:680px;margin:0 auto;border-bottom:1px solid var(--border)
+}
+.phase-name{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--red);text-transform:uppercase}
+.phase-desc{font-size:11px;color:var(--lgrey);margin-top:2px}
+.phase-days{font-family:var(--mono);font-size:9px;color:var(--grey);white-space:nowrap}
+
+/* progress */
+.prog-wrap{padding:16px 20px 0;max-width:680px;margin:0 auto}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog-pct{font-size:12px;font-weight:600}
+.prog-frac{font-family:var(--mono);font-size:9px;color:var(--lgrey)}
+.prog-bar{height:2px;background:var(--border2);overflow:hidden}
+.prog-fill{height:100%;background:var(--red);transition:width .4s ease}
+
+/* tasks */
+.tasks-wrap{padding:20px 20px 0;max-width:680px;margin:0 auto}
+.task{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;background:var(--bg2);border:1px solid var(--border);
+  margin-bottom:2px;cursor:pointer;transition:all .15s ease;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.task:active{transform:scale(.99)}
+.task:hover{background:var(--bg3);border-color:var(--border2)}
+.task.done{background:var(--bg);opacity:.7}
+.task.done .task-label{text-decoration:line-through;color:var(--grey);text-decoration-color:var(--border2)}
+.task-chk{
+  width:20px;height:20px;border:1.5px solid var(--border2);flex-shrink:0;
+  position:relative;transition:all .15s ease
+}
+.task-chk::after{
+  content:'';position:absolute;top:3px;left:6px;
+  width:5px;height:9px;
+  border-right:2px solid var(--white);border-bottom:2px solid var(--white);
+  transform:rotate(45deg);opacity:0;transition:opacity .1s ease
+}
+.task.done .task-chk{background:var(--red2);border-color:var(--red2)}
+.task.done .task-chk::after{opacity:1}
+.task-label{flex:1;font-size:14px;font-weight:500;transition:all .15s ease}
+.task-tag{
+  font-family:var(--mono);font-size:8px;letter-spacing:.1em;
+  padding:2px 7px;border:1px solid var(--border);color:var(--lgrey);text-transform:uppercase;white-space:nowrap
+}
+.task[data-type=gym] .task-tag{color:var(--red);border-color:var(--red2)}
+.task[data-type=cardio] .task-tag{color:var(--blue);border-color:rgba(91,141,238,.3)}
+.task[data-type=nutrition] .task-tag{color:var(--green);border-color:rgba(76,175,125,.3)}
+.task[data-type=lifestyle] .task-tag{color:var(--amber);border-color:rgba(232,168,56,.3)}
+
+/* macros strip */
+.macros{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;
+  padding:16px 20px 0;max-width:680px;margin:0 auto
+}
+.macro{background:var(--bg2);border:1px solid var(--border);padding:12px 8px;text-align:center}
+.macro-val{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--white)}
+.macro-key{font-family:var(--mono);font-size:7px;letter-spacing:.12em;color:var(--grey);margin-top:4px;text-transform:uppercase}
+
+/* stats */
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  padding:16px 20px 0;max-width:680px;margin:0 auto
+}
+.stat{background:var(--bg2);border:1px solid var(--border);padding:16px;text-align:center}
+.stat-val{font-size:28px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.stat-val.r{color:var(--red)}
+.stat-key{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--grey);margin-top:6px;text-transform:uppercase}
+
+/* ─── ② PLAN ──────────────────────────────────────────────────────── */
+.split-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px
+}
+.split-cell{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:10px 4px;text-align:center
+}
+.split-cell.active-day{background:var(--red2);border-color:var(--red2)}
+.split-cell.rest-day{background:var(--bg3)}
+.split-day{font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:var(--grey);text-transform:uppercase;margin-bottom:4px}
+.split-session{font-size:10px;font-weight:700;letter-spacing:.04em}
+.split-cell.active-day .split-session{color:var(--white)}
+.split-cell.rest-day .split-session{color:var(--lgrey)}
+
+.sessions-table{width:100%;border-collapse:collapse}
+.sessions-table tr{border-bottom:1px solid var(--border)}
+.sessions-table td{padding:12px 16px;font-size:13px}
+.sessions-table td:first-child{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--red);
+  text-transform:uppercase;width:80px;white-space:nowrap
+}
+.sessions-table td:nth-child(2){font-weight:600;width:90px}
+.sessions-table td:last-child{font-size:12px;color:var(--lgrey)}
+.sessions-table tr:last-child{border:none}
+
+.treadmill-rows{width:100%;border-collapse:collapse}
+.treadmill-rows tr{border-bottom:1px solid var(--border)}
+.treadmill-rows td{padding:11px 16px;font-size:13px}
+.treadmill-rows td:first-child{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--red);
+  text-transform:uppercase;width:90px
+}
+.treadmill-rows tr:last-child td{color:var(--white);font-weight:600}
+.treadmill-rows tr:last-child{border:none;background:var(--red-dim2)}
+
+/* phases */
+.phase-block{border:1px solid var(--border);margin-bottom:2px;overflow:hidden}
+.phase-hdr{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px;background:var(--bg3);cursor:pointer;
+  transition:background .15s ease
+}
+.phase-hdr:hover{background:var(--bg4)}
+.phase-hdr-left .ph-title{font-size:13px;font-weight:700;color:var(--red)}
+.phase-hdr-left .ph-meta{font-family:var(--mono);font-size:8px;color:var(--lgrey);letter-spacing:.1em;margin-top:3px}
+.phase-hdr-right{display:flex;align-items:center;gap:12px}
+.phase-expected{font-family:var(--mono);font-size:9px;color:var(--lgrey);text-align:right}
+.phase-chevron{font-size:10px;color:var(--grey);transition:transform .2s ease}
+.phase-chevron.open{transform:rotate(90deg)}
+.phase-body{overflow:hidden;transition:max-height .3s ease;max-height:0}
+.phase-body.open{max-height:400px}
+.phase-body-inner{padding:16px;background:var(--bg2);border-top:1px solid var(--border)}
+.phase-focus{font-size:12px;color:var(--lgrey);margin-bottom:12px;line-height:1.6}
+.checklist{list-style:none}
+.checklist li{
+  font-size:12px;color:var(--mgrey);padding:6px 0;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:8px
+}
+.checklist li:last-child{border:none}
+.checklist li::before{content:'◻';color:var(--grey);flex-shrink:0;font-size:10px;margin-top:1px}
+
+/* ─── ③ NUTRITION ─────────────────────────────────────────────────── */
+.meal-table{width:100%;border-collapse:collapse}
+.meal-table tr{border-bottom:1px solid var(--border)}
+.meal-table tr:last-child{border:none;background:var(--red-dim2)}
+.meal-table td{padding:12px 14px;font-size:13px;vertical-align:top}
+.meal-table td:first-child{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  color:var(--red);text-transform:uppercase;width:90px;padding-top:14px
+}
+.meal-table td:nth-child(2){color:var(--mgrey);font-size:12px;line-height:1.6}
+.meal-table td:nth-child(3){
+  font-family:var(--mono);font-size:11px;color:var(--green);
+  white-space:nowrap;text-align:right;width:45px
+}
+.meal-table td:last-child{
+  font-family:var(--mono);font-size:11px;color:var(--lgrey);
+  white-space:nowrap;text-align:right;width:45px
+}
+.meal-table tr:last-child td{color:var(--white);font-weight:700;font-size:12px}
+.meal-col-heads{
+  display:grid;grid-template-columns:90px 1fr 45px 45px;
+  padding:6px 14px;background:var(--bg3);
+  font-family:var(--mono);font-size:7px;letter-spacing:.14em;
+  color:var(--grey);text-transform:uppercase
+}
+.meal-col-heads span:nth-child(3),.meal-col-heads span:last-child{text-align:right}
+
+.macro-target-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px}
+.mt-cell{background:var(--bg2);border:1px solid var(--border);padding:14px 12px;text-align:center}
+.mt-val{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--white)}
+.mt-pct{font-family:var(--mono);font-size:9px;color:var(--red);margin-top:2px}
+.mt-key{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--grey);margin-top:4px;text-transform:uppercase}
+
+.tip-box{background:var(--bg3);border-left:2px solid var(--red2);padding:12px 16px;margin-top:2px}
+.tip-box p{font-size:12px;color:var(--lgrey);line-height:1.65}
+.tip-box p+p{margin-top:6px}
+
+/* ─── ④ PROGRESS ─────────────────────────────────────────────────── */
+.day-grid{
+  display:grid;grid-template-columns:repeat(15,1fr);gap:3px;margin-bottom:2px
+}
+.d-dot{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:6px;color:var(--grey);
+  border:1px solid var(--border);background:var(--bg2);
+  cursor:pointer;transition:all .1s ease;-webkit-tap-highlight-color:transparent
+}
+.d-dot:active{transform:scale(.9)}
+.d-dot.done{background:var(--red2);border-color:var(--red2);color:var(--white)}
+.d-dot.partial{background:var(--red-dim2);border-color:var(--red2)}
+.d-dot.today{border-color:var(--red);color:var(--red)}
+.d-dot.future{opacity:.3}
+
+.prog-big{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px
+}
+.pb-cell{background:var(--bg2);border:1px solid var(--border);padding:20px 16px;text-align:center}
+.pb-val{font-size:36px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.pb-val.r{color:var(--red)}
+.pb-key{font-family:var(--mono);font-size:7px;letter-spacing:.14em;color:var(--grey);margin-top:6px;text-transform:uppercase}
+
+.day-nav-bar{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;background:var(--bg2);border:1px solid var(--border);margin-bottom:2px
+}
+.dnb-btn{
+  background:var(--bg3);border:1px solid var(--border2);color:var(--lgrey);
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;transition:all .15s ease;flex-shrink:0;
+  -webkit-tap-highlight-color:transparent
+}
+.dnb-btn:hover{border-color:var(--red);color:var(--red)}
+.dnb-info{flex:1}
+.dnb-title{font-size:15px;font-weight:700}
+.dnb-date{font-family:var(--mono);font-size:9px;color:var(--lgrey);letter-spacing:.08em;margin-top:2px}
+.dnb-badge{
+  font-family:var(--mono);font-size:8px;letter-spacing:.1em;
+  padding:3px 8px;border:1px solid var(--border2);color:var(--grey);text-transform:uppercase
+}
+.dnb-badge.today{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+
+.day-tasks-mini .task{padding:10px 14px}
+.day-tasks-mini .task-label{font-size:13px}
+
+/* ─── BOTTOM AREA ─────────────────────────────────────────────────── */
+.bottom-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(8,8,8,.95);backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);
+  display:flex;padding:8px 12px max(8px, env(safe-area-inset-bottom)) 12px;
+  gap:4px;justify-content:center
+}
+.bb-tab{
+  flex:1;max-width:100px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 4px;cursor:pointer;border:none;background:none;
+  color:var(--grey);transition:color .15s ease;
+  -webkit-tap-highlight-color:transparent;font-family:var(--font)
+}
+.bb-tab.active{color:var(--red)}
+.bb-icon{font-size:18px;line-height:1}
+.bb-label{font-family:var(--mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase}
+
+/* ─── RESPONSIVE ──────────────────────────────────────────────────── */
+@media(max-width:480px){
+  .macros{grid-template-columns:repeat(2,1fr)}
+  .macro-val{font-size:13px}
+  .split-cell{padding:8px 2px}
+  .split-session{font-size:9px}
+  .day-grid{grid-template-columns:repeat(13,1fr)}
+  .prog-big{grid-template-columns:repeat(3,1fr)}
+  .pb-val{font-size:28px}
+  .meal-col-heads{grid-template-columns:70px 1fr 38px 38px}
+  .meal-table td:first-child{width:70px}
+  .meal-table td:nth-child(3),.meal-table td:last-child{width:38px}
+  .macro-target-grid{grid-template-columns:repeat(2,1fr)}
+  .mt-val{font-size:15px}
+  nav{padding:0 12px}
+  .hero{padding:20px 16px 18px}
+  .phase-bar,.prog-wrap,.tasks-wrap,.macros,.stats{padding-left:16px;padding-right:16px}
+  .wrap{padding:20px 16px 80px}
+  .hero-left .day-num{font-size:clamp(44px,14vw,80px)}
+}
+
+/* Desktop: hide bottom bar, show top nav */
+@media(min-width:700px){
+  .bottom-bar{display:none}
+  .nav-tabs{display:flex}
+  body{padding-bottom:0}
+}
+@media(max-width:699px){
+  .nav-tabs{display:none}
+  body{padding-bottom:60px}
+}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--bg3);border:1px solid var(--border2);
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--white);
+  padding:8px 16px;opacity:0;transition:all .3s ease;pointer-events:none;white-space:nowrap;
+  z-index:200
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(min-width:700px){.toast{bottom:24px}}
+
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ───────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">75 Hard</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="today">Today</button>
+    <button class="nav-tab" data-tab="plan">Plan</button>
+    <button class="nav-tab" data-tab="nutrition">Nutrition</button>
+    <button class="nav-tab" data-tab="progress">Progress</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     ① TODAY
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section active" id="tab-today">
+
+  <div class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">April 10 → June 23, 2026</div>
+      <div class="day-num">DAY<span id="heroDay">—</span></div>
+      <div class="day-date" id="heroDate">—</div>
+      <div class="day-session" id="heroSession" style="display:none"></div>
+    </div>
+    <div class="ring-wrap">
+      <div class="ring-pos">
+        <svg class="ring-svg" viewBox="0 0 90 90">
+          <circle class="ring-bg" cx="45" cy="45" r="38"/>
+          <circle class="ring-fill" id="ringFill" cx="45" cy="45" r="38"
+            stroke-dasharray="238.8" stroke-dashoffset="238.8"/>
+        </svg>
+        <div class="ring-inner">
+          <div class="ring-num" id="ringNum">75</div>
+          <div class="ring-lbl" id="ringLbl">days left</div>
+        </div>
+      </div>
+      <div class="ring-sub" id="ringSub">Starts tomorrow</div>
+    </div>
+  </div>
+
+  <div class="phase-bar">
+    <div>
+      <div class="phase-name" id="todayPhase">—</div>
+      <div class="phase-desc" id="todayPhaseDesc">—</div>
+    </div>
+    <div class="phase-days" id="todayPhaseDays">—</div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <div class="prog-pct" id="todayProgPct">0% done</div>
+      <div class="prog-frac" id="todayProgFrac">0 / 0 tasks</div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="todayProgFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="tasks-wrap">
+    <div class="label" style="margin-top:20px">Today's Checklist</div>
+    <div id="todayTasks"></div>
+  </div>
+
+  <div class="macros" style="margin-top:20px">
+    <div class="macro"><div class="macro-val">2,007</div><div class="macro-key">Calories</div></div>
+    <div class="macro"><div class="macro-val">201g</div><div class="macro-key">Protein</div></div>
+    <div class="macro"><div class="macro-val">176g</div><div class="macro-key">Carbs</div></div>
+    <div class="macro"><div class="macro-val">56g</div><div class="macro-key">Fat</div></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-val r" id="statStreak">0</div><div class="stat-key">Streak</div></div>
+    <div class="stat"><div class="stat-val" id="statDone">0</div><div class="stat-key">Days Done</div></div>
+    <div class="stat"><div class="stat-val" id="statLeft">75</div><div class="stat-key">Days Left</div></div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     ② PLAN
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="tab-plan">
+<div class="wrap">
+
+  <div class="eyebrow">Your Protocol</div>
+  <div style="font-size:26px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px">75 HARD PLAN</div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--lgrey);letter-spacing:.1em;margin-bottom:24px">APR 10 → JUN 23, 2026 &nbsp;·&nbsp; 75 DAYS</div>
+
+  <!-- Stats strip -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:24px">
+    <div class="mt-cell"><div class="mt-val" style="font-size:14px">170</div><div class="mt-pct">lbs</div><div class="mt-key">Start</div></div>
+    <div class="mt-cell"><div class="mt-val" style="font-size:14px">155</div><div class="mt-pct">lbs</div><div class="mt-key">Target</div></div>
+    <div class="mt-cell"><div class="mt-val" style="font-size:14px">24%</div><div class="mt-pct">BF</div><div class="mt-key">Start</div></div>
+    <div class="mt-cell"><div class="mt-val" style="font-size:14px">15–17%</div><div class="mt-pct">BF</div><div class="mt-key">Target</div></div>
+    <div class="mt-cell"><div class="mt-val" style="font-size:14px">2,007</div><div class="mt-pct">kcal</div><div class="mt-key">Daily</div></div>
+  </div>
+
+  <div class="label">Weekly Split</div>
+  <div class="split-grid">
+    <div class="split-cell rest-day"><div class="split-day">MON</div><div class="split-session">REST</div></div>
+    <div class="split-cell active-day"><div class="split-day">TUE</div><div class="split-session">UPPER</div></div>
+    <div class="split-cell active-day"><div class="split-day">WED</div><div class="split-session">LOWER</div></div>
+    <div class="split-cell rest-day"><div class="split-day">THU</div><div class="split-session">REST</div></div>
+    <div class="split-cell active-day"><div class="split-day">FRI</div><div class="split-session">PUSH</div></div>
+    <div class="split-cell active-day"><div class="split-day">SAT</div><div class="split-session">PULL</div></div>
+    <div class="split-cell active-day"><div class="split-day">SUN</div><div class="split-session">LEGS</div></div>
+  </div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--grey);padding:8px 0 0;margin-bottom:24px">
+    + 30 mins incline treadmill every single day including rest days
+  </div>
+
+  <div class="label">Sessions</div>
+  <div class="card" style="padding:0">
+    <table class="sessions-table">
+      <tr><td>UPPER</td><td>Tuesday</td><td>Chest · Shoulders · Back · Arms — compound + isolation</td></tr>
+      <tr><td>LOWER</td><td>Wednesday</td><td>Quads · Hamstrings · Glutes · Calves — squat & hinge patterns</td></tr>
+      <tr><td>PUSH</td><td>Friday</td><td>Chest · Shoulders · Triceps — press heavy, isolate after</td></tr>
+      <tr><td>PULL</td><td>Saturday</td><td>Back · Biceps · Rear Delts — pull heavy, curl to finish</td></tr>
+      <tr><td>LEGS</td><td>Sunday</td><td>Full lower body — volume day, different stimulus to Wednesday</td></tr>
+    </table>
+  </div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--grey);padding:8px 0 0;margin-bottom:24px">
+    Progressive overload every session. Log your lifts.
+  </div>
+
+  <div class="label">Incline Treadmill</div>
+  <div class="card" style="padding:0">
+    <table class="treadmill-rows">
+      <tr><td>WK 1–3</td><td>Incline 6% &nbsp;·&nbsp; Speed 5.0–5.5 km/h &nbsp;·&nbsp; 30 mins</td></tr>
+      <tr><td>WK 4–6</td><td>Incline 8% &nbsp;·&nbsp; Speed 5.5 km/h &nbsp;·&nbsp; 30 mins</td></tr>
+      <tr><td>WK 7–10</td><td>Incline 10% &nbsp;·&nbsp; Speed 5.5–6.0 km/h &nbsp;·&nbsp; 30 mins</td></tr>
+      <tr><td>EVERY DAY</td><td>Morning preferred — fasted or post-breakfast. Non-negotiable.</td></tr>
+    </table>
+  </div>
+
+  <div style="margin-top:24px"></div>
+  <div class="label">Daily Non-Negotiables</div>
+  <div class="card" style="padding:0">
+    <div class="task" style="cursor:default" data-type="nutrition"><div class="task-tag">Nutrition</div><div class="task-label" style="font-size:13px">2,007 kcal &nbsp;·&nbsp; 201g protein &nbsp;·&nbsp; log on NutraCheck</div></div>
+    <div class="task" style="cursor:default" data-type="cardio"><div class="task-tag">Cardio</div><div class="task-label" style="font-size:13px">30 mins incline treadmill</div></div>
+    <div class="task" style="cursor:default" data-type="lifestyle"><div class="task-tag">Lifestyle</div><div class="task-label" style="font-size:13px">10,000+ steps</div></div>
+    <div class="task" style="cursor:default" data-type="lifestyle"><div class="task-tag">Lifestyle</div><div class="task-label" style="font-size:13px">Water only — no alcohol, soft drinks, or juice</div></div>
+    <div class="task" style="cursor:default" data-type="lifestyle"><div class="task-tag">Lifestyle</div><div class="task-label" style="font-size:13px">8 hours sleep</div></div>
+  </div>
+
+  <div style="margin-top:24px"></div>
+  <div class="label">Phase Breakdown & Milestones</div>
+  <div id="phasesContainer"></div>
+
+  <div style="margin-top:32px;padding:20px;background:var(--bg3);border-left:3px solid var(--red2)">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--red);margin-bottom:6px">THE RULE</div>
+    <div style="font-size:13px;color:var(--lgrey);line-height:1.7">
+      75 days. No excuses. No zero days.<br>Miss one task — start over from Day 1.<br>
+      <span style="color:var(--white);font-weight:600">June 23 you'll know you earned it.</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     ③ NUTRITION
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="tab-nutrition">
+<div class="wrap">
+
+  <div class="eyebrow">Fuel Protocol</div>
+  <div style="font-size:26px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px">NUTRITION</div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--lgrey);letter-spacing:.1em;margin-bottom:24px">HIGH PROTEIN CUT &nbsp;·&nbsp; NUTRACHECK</div>
+
+  <div class="label">Daily Macro Targets</div>
+  <div class="macro-target-grid">
+    <div class="mt-cell"><div class="mt-val">2,007</div><div class="mt-pct">kcal</div><div class="mt-key">Calories</div></div>
+    <div class="mt-cell"><div class="mt-val">201g</div><div class="mt-pct">40%</div><div class="mt-key">Protein</div></div>
+    <div class="mt-cell"><div class="mt-val">176g</div><div class="mt-pct">35%</div><div class="mt-key">Carbs</div></div>
+    <div class="mt-cell"><div class="mt-val">56g</div><div class="mt-pct">25%</div><div class="mt-key">Fat</div></div>
+  </div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--grey);padding:8px 0 0;margin-bottom:24px">
+    Katch-McArdle formula &nbsp;·&nbsp; BMR 1,617 kcal &nbsp;·&nbsp; −500 kcal deficit
+  </div>
+
+  <div class="label">Sample Meal Plan</div>
+  <div class="card" style="padding:0">
+    <div class="meal-col-heads">
+      <span>Meal</span><span>Example</span><span>Protein</span><span>Cals</span>
+    </div>
+    <table class="meal-table">
+      <tr>
+        <td>Breakfast</td>
+        <td>5 egg whites + 2 whole eggs, oats (60g), black coffee</td>
+        <td>42g</td><td>450</td>
+      </tr>
+      <tr>
+        <td>Lunch</td>
+        <td>Chicken breast (200g), rice (100g dry), broccoli + olive oil drizzle</td>
+        <td>55g</td><td>580</td>
+      </tr>
+      <tr>
+        <td>Dinner</td>
+        <td>Lean beef mince or salmon (180g), sweet potato (150g), greens</td>
+        <td>48g</td><td>620</td>
+      </tr>
+      <tr>
+        <td>Night Snack</td>
+        <td>Protein yoghurt bowl — low-fat Greek yogurt (200g), whey (1 scoop), berries</td>
+        <td>56g</td><td>357</td>
+      </tr>
+      <tr>
+        <td>Total</td><td></td><td>201g</td><td>2,007</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="margin-top:24px"></div>
+  <div class="label">Guidelines</div>
+  <div class="tip-box">
+    <p>Log everything on NutraCheck before or as you eat it — not at the end of the day. Protein is non-negotiable; hit 201g every day without exception.</p>
+    <p>Swap food sources freely as long as the macros land. Prioritise whole foods. Never go under 180g protein.</p>
+    <p>Water only for the full 75 days — no alcohol, no soft drinks, no juice. Black coffee and tea are fine.</p>
+    <p>Eat 4 meals a day. Don't skip the night snack — slow-digesting protein before bed supports overnight recovery.</p>
+  </div>
+
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     ④ PROGRESS
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="tab-progress">
+<div class="wrap">
+
+  <div class="eyebrow">The Long Game</div>
+  <div style="font-size:26px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px">PROGRESS</div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--lgrey);letter-spacing:.1em;margin-bottom:24px">75-DAY OVERVIEW</div>
+
+  <div class="label">Challenge Stats</div>
+  <div class="prog-big">
+    <div class="pb-cell"><div class="pb-val r" id="progStreak">0</div><div class="pb-key">Streak</div></div>
+    <div class="pb-cell"><div class="pb-val" id="progDone">0</div><div class="pb-key">Complete</div></div>
+    <div class="pb-cell"><div class="pb-val" id="progLeft">75</div><div class="pb-key">Remaining</div></div>
+  </div>
+
+  <div style="margin-top:16px"></div>
+  <div class="label">75-Day Map</div>
+  <div class="day-grid" id="dayGrid"></div>
+  <div style="display:flex;gap:16px;padding:8px 0;margin-bottom:24px">
+    <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:8px;color:var(--grey)">
+      <div style="width:10px;height:10px;background:var(--red2);border:1px solid var(--red2)"></div>COMPLETE
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:8px;color:var(--grey)">
+      <div style="width:10px;height:10px;background:var(--red-dim2);border:1px solid var(--red2)"></div>PARTIAL
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:8px;color:var(--grey)">
+      <div style="width:10px;height:10px;border:1px solid var(--red)"></div>TODAY
+    </div>
+  </div>
+
+  <div class="label">Review Any Day</div>
+  <div class="day-nav-bar">
+    <button class="dnb-btn" id="prevDay">&#8592;</button>
+    <div class="dnb-info">
+      <div class="dnb-title" id="dnbTitle">Day 1</div>
+      <div class="dnb-date" id="dnbDate">—</div>
+    </div>
+    <div class="dnb-badge" id="dnbBadge">TODAY</div>
+    <button class="dnb-btn" id="nextDay">&#8594;</button>
+  </div>
+  <div class="day-tasks-mini" id="dayTasksMini"></div>
+
+</div>
+</div>
+
+<!-- ── BOTTOM NAV (mobile) ──────────────────────────────────────────────── -->
+<div class="bottom-bar">
+  <button class="bb-tab active" data-tab="today"><div class="bb-icon">◉</div><div class="bb-label">Today</div></button>
+  <button class="bb-tab" data-tab="plan"><div class="bb-icon">◈</div><div class="bb-label">Plan</div></button>
+  <button class="bb-tab" data-tab="nutrition"><div class="bb-icon">◍</div><div class="bb-label">Fuel</div></button>
+  <button class="bb-tab" data-tab="progress"><div class="bb-icon">◎</div><div class="bb-label">Progress</div></button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ─────────────────────────────────────────────────────────────────
+const START   = new Date('2026-04-10');
+const TOTAL   = 75;
+const KEY     = '75hard_charlie_v2';
+const DAYS    = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const PHASES = [
+  { r:[1,22],   name:'Phase 1 — Ignition',   dates:'Apr 10 – May 1',   weight:'~165–167 lbs', bf:'~22%',
+    focus:'Build the habit. Lock in macros. No cheat meals, no negotiation.',
+    checks:['Week 1 complete — routine established','First 3 kg lost — visible in face & waist','Hitting 201g protein daily consistently','Treadmill incline progressively increasing','Energy levels stabilising after initial adaptation']},
+  { r:[23,44],  name:'Phase 2 — Momentum',   dates:'May 2 – May 23',   weight:'~160–163 lbs', bf:'~19–21%',
+    focus:'Strength improving. Body fat visibly dropping. Stay the course.',
+    checks:['Halfway point — take a progress photo','Waist measurement down 1–2 inches','Lifts increasing — progressive overload working','Sleep and recovery dialled in','Cravings under control — mental toughness building']},
+  { r:[45,64],  name:'Phase 3 — Locked In',  dates:'May 24 – Jun 12',  weight:'~156–159 lbs', bf:'~17–19%',
+    focus:'The hard part is over mentally. Double down. Results accelerate.',
+    checks:['Day 50 milestone — celebrate with a progress pic','Visible muscle definition appearing','Treadmill at max incline — full 30 mins','Close to target weight — tighten up nutrition','5 gym sessions feel like the norm']},
+  { r:[65,75],  name:'Phase 4 — Finish Line',dates:'Jun 13 – Jun 23',  weight:'~154–156 lbs', bf:'~15–17%',
+    focus:'Final push. Every session counts double. Do not ease off.',
+    checks:['Final week — photograph everything','Target: 155 lbs / 15–17% BF achieved','Total fat lost: ~12–15 lbs','Lean mass preserved / slightly increased','Day 75 — Done. Document the transformation.']},
+];
+
+const GYM = {2:'UPPER',3:'LOWER',5:'PUSH',6:'PULL',0:'LEGS'}; // js getDay()
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let reviewDay = 1;
+
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch{ return{}; } }
+function save(d){ localStorage.setItem(KEY,JSON.stringify(d)); }
+
+function dateFor(n){
+  const d=new Date(START); d.setDate(d.getDate()+n-1); return d;
+}
+
+function todayDayNum(){
+  const now=new Date(); now.setHours(0,0,0,0);
+  const s=new Date(START); s.setHours(0,0,0,0);
+  if(now<s) return 0;
+  return Math.max(1,Math.min(Math.floor((now-s)/86400000)+1,TOTAL));
+}
+
+function tasksFor(n){
+  const dt=dateFor(n), jd=dt.getDay();
+  const gym=GYM[jd];
+  const t=[
+    {id:'treadmill',label:'30 mins incline treadmill',tag:'Cardio',type:'cardio'},
+    {id:'steps',    label:'10,000+ steps',            tag:'Lifestyle',type:'lifestyle'},
+    {id:'calories', label:'Hit 2,007 kcal on NutraCheck',tag:'Nutrition',type:'nutrition'},
+    {id:'protein',  label:'Hit 201g protein',          tag:'Nutrition',type:'nutrition'},
+    {id:'water',    label:'Water only — no alcohol or drinks',tag:'Lifestyle',type:'lifestyle'},
+    {id:'sleep',    label:'8 hours sleep',             tag:'Lifestyle',type:'lifestyle'},
+  ];
+  if(gym) t.splice(1,0,{id:'gym',label:`Gym — ${gym} session`,tag:gym,type:'gym'});
+  return t;
+}
+
+function phaseFor(n){ return PHASES.find(p=>n>=p.r[0]&&n<=p.r[1])||PHASES[0]; }
+
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),1800);
+}
+
+// ── TODAY TAB ──────────────────────────────────────────────────────────────
+function renderToday(){
+  const data=load(), td=todayDayNum();
+  const displayDay=Math.max(1,td);
+  const dt=dateFor(displayDay), jd=dt.getDay();
+  const gym=GYM[jd];
+
+  // Hero
+  document.getElementById('heroDay').textContent=td===0?'1':displayDay;
+  document.getElementById('heroDate').textContent=`${DAYS[jd]}, ${MONTHS[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
+  const sesEl=document.getElementById('heroSession');
+  if(gym){ sesEl.textContent=gym+' DAY'; sesEl.style.display='inline-block'; }
+  else{ sesEl.style.display='none'; }
+
+  // Ring
+  const dLeft=td===0?TOTAL:Math.max(0,TOTAL-td+1);
+  const prog=td===0?0:(td-1)/TOTAL;
+  const C=238.8;
+  document.getElementById('ringFill').style.strokeDashoffset=C-(prog*C);
+  document.getElementById('ringNum').textContent=dLeft;
+  document.getElementById('ringSub').textContent=td===0?'starts tomorrow':`day ${Math.min(td,75)} of 75`;
+  document.getElementById('ringLbl').textContent='days left';
+
+  // Phase
+  const ph=phaseFor(displayDay);
+  document.getElementById('todayPhase').textContent=ph.name;
+  document.getElementById('todayPhaseDesc').textContent=ph.focus;
+  document.getElementById('todayPhaseDays').textContent=`Days ${ph.r[0]}–${ph.r[1]}`;
+
+  // Tasks
+  const dayKey=`day_${displayDay}`;
+  const checked=data[dayKey]||{};
+  const tasks=tasksFor(displayDay);
+  let done=0;
+  const el=document.getElementById('todayTasks');
+  el.innerHTML='';
+  tasks.forEach(task=>{
+    const isDone=!!checked[task.id];
+    if(isDone) done++;
+    const div=document.createElement('div');
+    div.className=`task${isDone?' done':''}`;
+    div.dataset.type=task.type;
+    div.innerHTML=`<div class="task-chk"></div><div class="task-label">${task.label}</div><div class="task-tag">${task.tag}</div>`;
+    div.addEventListener('click',()=>{
+      if(td===0){toast('Challenge starts tomorrow!');return;}
+      const d2=load();
+      if(!d2[dayKey]) d2[dayKey]={};
+      d2[dayKey][task.id]=!d2[dayKey][task.id];
+      save(d2); renderToday(); renderProgress();
+      if(d2[dayKey][task.id]) toast('✓ '+task.label.split('—')[0].trim());
+    });
+    el.appendChild(div);
+  });
+
+  // Progress bar
+  const pct=tasks.length?Math.round((done/tasks.length)*100):0;
+  document.getElementById('todayProgPct').textContent=`${pct}% done`;
+  document.getElementById('todayProgFrac').textContent=`${done} / ${tasks.length} tasks`;
+  document.getElementById('todayProgFill').style.width=pct+'%';
+
+  // Stats
+  renderStats();
+}
+
+function renderStats(){
+  const data=load(), td=todayDayNum();
+  let streak=0,done=0;
+  for(let d=1;d<=Math.min(td,TOTAL);d++){
+    const t=tasksFor(d), c=data[`day_${d}`]||{};
+    const allDone=t.length>0&&t.every(task=>c[task.id]);
+    if(allDone){done++;streak++;}else{streak=0;}
+  }
+  document.getElementById('statStreak').textContent=streak;
+  document.getElementById('statDone').textContent=done;
+  document.getElementById('statLeft').textContent=Math.max(0,TOTAL-Math.max(td,1)+1);
+  document.getElementById('progStreak').textContent=streak;
+  document.getElementById('progDone').textContent=done;
+  document.getElementById('progLeft').textContent=Math.max(0,TOTAL-Math.max(td,1)+1);
+}
+
+// ── PHASES (Plan tab) ──────────────────────────────────────────────────────
+function buildPhases(){
+  const container=document.getElementById('phasesContainer');
+  PHASES.forEach((ph,i)=>{
+    const block=document.createElement('div');
+    block.className='phase-block';
+    block.innerHTML=`
+      <div class="phase-hdr" data-idx="${i}">
+        <div class="phase-hdr-left">
+          <div class="ph-title">${ph.name}</div>
+          <div class="ph-meta">${ph.dates} &nbsp;·&nbsp; Days ${ph.r[0]}–${ph.r[1]}</div>
+        </div>
+        <div class="phase-hdr-right">
+          <div class="phase-expected">${ph.weight}<br><span style="color:var(--lgrey)">${ph.bf} BF</span></div>
+          <div class="phase-chevron">&#9658;</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-body-inner">
+          <div class="phase-focus">${ph.focus}</div>
+          <ul class="checklist">${ph.checks.map(c=>`<li>${c}</li>`).join('')}</ul>
+        </div>
+      </div>`;
+    container.appendChild(block);
+    block.querySelector('.phase-hdr').addEventListener('click',function(){
+      const body=block.querySelector('.phase-body');
+      const chev=block.querySelector('.phase-chevron');
+      const isOpen=body.classList.contains('open');
+      body.classList.toggle('open',!isOpen);
+      chev.classList.toggle('open',!isOpen);
+    });
+  });
+}
+
+// ── PROGRESS TAB ───────────────────────────────────────────────────────────
+function renderProgress(){
+  renderStats();
+  const data=load(), td=todayDayNum();
+  const grid=document.getElementById('dayGrid');
+  grid.innerHTML='';
+  for(let d=1;d<=TOTAL;d++){
+    const t=tasksFor(d), c=data[`day_${d}`]||{};
+    const done2=t.filter(task=>c[task.id]).length;
+    const all=done2===t.length&&t.length>0;
+    const any=done2>0;
+    const dot=document.createElement('div');
+    dot.className='d-dot';
+    if(d<td) dot.classList.add(all?'done':any?'partial':'');
+    else if(d===td) dot.classList.add('today');
+    else dot.classList.add('future');
+    dot.textContent=d;
+    dot.addEventListener('click',()=>{ reviewDay=d; renderDayReview(); });
+    grid.appendChild(dot);
+  }
+  renderDayReview();
+}
+
+function renderDayReview(){
+  const data=load(), td=todayDayNum();
+  const dt=dateFor(reviewDay), jd=dt.getDay();
+  document.getElementById('dnbTitle').textContent=`Day ${reviewDay}`;
+  document.getElementById('dnbDate').textContent=`${DAYS[jd]}, ${MONTHS[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
+  const badge=document.getElementById('dnbBadge');
+  if(reviewDay===td){badge.textContent='TODAY';badge.className='dnb-badge today';}
+  else if(reviewDay<td){badge.textContent='PAST';badge.className='dnb-badge';}
+  else{badge.textContent='FUTURE';badge.className='dnb-badge';}
+
+  const dayKey=`day_${reviewDay}`;
+  const checked=data[dayKey]||{};
+  const tasks=tasksFor(reviewDay);
+  const container=document.getElementById('dayTasksMini');
+  container.innerHTML='';
+  tasks.forEach(task=>{
+    const isDone=!!checked[task.id];
+    const div=document.createElement('div');
+    div.className=`task${isDone?' done':''}`;
+    div.dataset.type=task.type;
+    div.innerHTML=`<div class="task-chk"></div><div class="task-label">${task.label}</div><div class="task-tag">${task.tag}</div>`;
+    div.addEventListener('click',()=>{
+      if(reviewDay>td&&reviewDay!==1){toast('Future day — not yet!');return;}
+      const d2=load();
+      if(!d2[dayKey]) d2[dayKey]={};
+      d2[dayKey][task.id]=!d2[dayKey][task.id];
+      save(d2); renderProgress(); renderToday();
+      if(d2[dayKey][task.id]) toast('✓ '+task.label.split('—')[0].trim());
+    });
+    container.appendChild(div);
+  });
+}
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+function switchTab(name){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab,.bb-tab').forEach(b=>{
+    b.classList.toggle('active',b.dataset.tab===name);
+  });
+  document.getElementById(`tab-${name}`).classList.add('active');
+  if(name==='progress') renderProgress();
+  window.scrollTo(0,0);
+}
+
+document.querySelectorAll('.nav-tab,.bb-tab').forEach(b=>{
+  b.addEventListener('click',()=>switchTab(b.dataset.tab));
+});
+
+document.getElementById('prevDay').addEventListener('click',()=>{
+  if(reviewDay>1){reviewDay--;renderDayReview();}
+});
+document.getElementById('nextDay').addEventListener('click',()=>{
+  if(reviewDay<TOTAL){reviewDay++;renderDayReview();}
+});
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+buildPhases();
+reviewDay=Math.max(1,todayDayNum());
+renderToday();
+renderStats();
+</script>
+</body>
+</html>
