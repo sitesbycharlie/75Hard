@@ -123,8 +123,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.97);backdrop-filter
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   max-width:680px;margin:0 auto;border-bottom:1px solid var(--border)}
 .phase-name{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--red);text-transform:uppercase}
-.phase-desc{font-size:11px;color:var(--lgrey);margin-top:2px}
-.phase-days{font-family:var(--mono);font-size:9px;color:var(--grey);white-space:nowrap}
+.phase-desc{font-size:11px;color:var(--lgrey);margin-top:2px;padding-right:8px}
+.phase-days{font-family:var(--mono);font-size:9px;color:var(--grey);white-space:nowrap;flex-shrink:0}
 
 /* PROGRESS BAR */
 .prog-wrap{padding:16px 20px 0;max-width:680px;margin:0 auto}
@@ -352,8 +352,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.97);backdrop-filter
   .hero-left .day-num{font-size:clamp(48px,14vw,72px)}
   .ring-pos,.ring-svg{width:76px;height:76px}
   .ring-num{font-size:20px}
-  .phase-bar{padding:10px 16px;flex-direction:column;align-items:flex-start;gap:4px}
-  .phase-days{align-self:flex-end;margin-top:-18px}
+  .phase-bar{padding:10px 16px}
+  .phase-days{display:none}
   .prog-wrap,.tasks-wrap,.macros,.stats{padding-left:14px;padding-right:14px}
   .wrap{padding:20px 14px 80px}
   .task{padding:14px;min-height:52px}
@@ -692,6 +692,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.97);backdrop-filter
     </div>
     <div class="dnb-badge" id="dnbBadge">TODAY</div>
     <button class="dnb-btn" id="nextDay">&#8594;</button>
+  </div>
+  <div style="display:flex;gap:2px;margin-bottom:2px">
+    <button id="markAllBtn" style="flex:1;background:var(--red2);border:none;color:var(--white);font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:11px 12px;cursor:pointer;transition:all .15s ease;touch-action:manipulation">✓ Mark All Done</button>
+    <button id="clearDayBtn" style="background:var(--bg3);border:1px solid var(--border2);color:var(--lgrey);font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:11px 14px;cursor:pointer;transition:all .15s ease;touch-action:manipulation">Clear</button>
   </div>
   <div class="day-tasks-mini" id="dayTasksMini"></div>
 
@@ -1296,6 +1300,26 @@ function switchTab(name,dir){
   window.scrollTo({top:0,behavior:'instant'});
 }
 document.querySelectorAll('.nav-tab,.bb-tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+document.getElementById('markAllBtn').addEventListener('click',()=>{
+  const td=todayDayNum();
+  if(reviewDay>td){toast('Future day — not yet!');return;}
+  const d=load(),dayKey=`day_${reviewDay}`,tasks=tasksFor(reviewDay);
+  if(!d[dayKey])d[dayKey]={};
+  tasks.forEach(t=>d[dayKey][t.id]=true);
+  save(d);renderDayReview();renderProgress();renderToday();
+  if(navigator.vibrate)navigator.vibrate([20,10,20]);
+  toast(`✓ Day ${reviewDay} marked complete`);
+});
+
+document.getElementById('clearDayBtn').addEventListener('click',()=>{
+  const td=todayDayNum();
+  if(reviewDay>td){toast('Future day — not yet!');return;}
+  const d=load(),dayKey=`day_${reviewDay}`;
+  d[dayKey]={};save(d);
+  renderDayReview();renderProgress();renderToday();
+  toast(`Day ${reviewDay} cleared`);
+});
+
 document.getElementById('prevDay').addEventListener('click',()=>{if(reviewDay>1){reviewDay--;renderDayReview();}});
 document.getElementById('nextDay').addEventListener('click',()=>{if(reviewDay<TOTAL){reviewDay++;renderDayReview();}});
 
